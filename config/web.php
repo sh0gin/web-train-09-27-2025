@@ -14,43 +14,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'fdghrfghfdg',
-            'baseUrl' => '',
-            'parsers' => [
-                'application/json' => 'yii\web\JsonParser',
-                'multipart/form-data' => 'yii\web\MultipartFormDataParser',
-            ]
-        ],
-        'response' => [
-            'format' => yii\web\Response::FORMAT_JSON,
-            'charset' => 'UTF-8',
-            'class' => 'yii\web\Response',
-            'on beforeSend' => function ($event) {
-                $response = $event->sender;
-                if ($response->statusCode == 404) {
-                    $response->data = [
-                        'message' => 'not found'
-                    ];
-                }
-                if ($response->statusCode == 401) {
-                    $response->data = [
-                        'message' => 'login failed'
-                    ];
-                }
-                if ($response->statusCode == 403) {
-                    $response->data = [
-                        'message' => 'forbidden for you'
-                    ];
-                }
-            },
-            'formatters' => [
-                \yii\web\Response::FORMAT_JSON => [
-                    'class' => 'yii\web\JsonResponseFormatter',
-                    'prettyPrint' => YII_DEBUG, // use "pretty" output in debug mode
-                    'encodeOptions' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
-                    // ...
-                ],
-            ],
+            'cookieValidationKey' => '',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -78,16 +42,14 @@ $config = [
             ],
         ],
         'db' => $db,
-
-        // 'urlManager' => [
-        //     'enablePrettyUrl' => true,
-        //     'enableStrictParsing' => false,
-        //     'showScriptName' => false,
-        //     'rules' => [
-        //         ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
-        //     ],
-        // ]
-
+        /*
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+            ],
+        ],
+        */
     ],
     'params' => $params,
 ];
@@ -98,14 +60,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['*'],
+        //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['*'],
+        //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 
