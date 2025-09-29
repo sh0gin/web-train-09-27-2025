@@ -13,11 +13,15 @@ use Yii;
  * @property int $user_id
  * @property int $category_id
  * @property string $date_created
+ * @property int $status_id
  *
  * @property Image[] $images
+ * @property Status $status
+ * @property User $user
  */
-class Ads extends \yii\db\ActiveRecord
+class profile extends \yii\db\ActiveRecord
 {
+
 
     public $image_download;
     /**
@@ -68,10 +72,4 @@ class Ads extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Image::class, ['ads_id' => 'id']);
     }
-
-    public function getUser()
-    {
-        return $this->hasMany(User::class, ['id' => 'user_id']);
-    }
-
 }

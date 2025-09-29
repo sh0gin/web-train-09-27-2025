@@ -52,6 +52,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
 
+    
+
     public static function findIdentity($id)
     {
         return static::findOne($id);
@@ -90,5 +92,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public static function getEmail($id): string | null
     {
         return static::findOne($id)?->email;
+    }
+
+    public function getIsAdmin()
+    {
+        return $this->role_id === 2;
     }
 }

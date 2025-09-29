@@ -6,20 +6,23 @@ use Yii;
 use yii\helpers\VarDumper;
 
 /**
- * This is the model class for table "category".
+ * This is the model class for table "status".
  *
  * @property int $id
- * @property int $title
+ * @property string $title
+ *
+ * @property Ads[] $ads
  */
-class Category extends \yii\db\ActiveRecord
+class Status extends \yii\db\ActiveRecord
 {
+
 
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'category';
+        return 'status';
     }
 
     /**
@@ -29,7 +32,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['title'], 'string'],
+            [['title'], 'string', 'max' => 255],
         ];
     }
 
@@ -44,15 +47,22 @@ class Category extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getCategory() {
-        return static::find()
-            ->select('title')
-            ->indexBy('id')
-            ->column();
+    /**
+     * Gets query for [[Ads]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAds()
+    {
+        return $this->hasMany(Ads::class, ['status_id' => 'id']);
+    }
+
+    public static function getId($status) {
+        return static::findOne(['title' => $status])?->id;
     }
 
     public static function getTitle($id) {
-        return static::findOne($id)->title;
+        return static::findOne($id)?->title;
     }
 
 }
