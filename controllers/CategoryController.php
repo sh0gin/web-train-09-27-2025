@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\category;
 use app\models\categorySearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,6 +39,11 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $searchModel = new categorySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 

@@ -46,10 +46,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 !Yii::$app->user->isGuest
                     ? ['label' => 'Мои объявления', 'url' => ['/profile']]
                     : '',
-                !Yii::$app->user->identity?->isAdmin
+                Yii::$app->user->identity?->isAdmin
                     ? ['label' => 'Категории', 'url' => ['/category']]
                     : '',
-                !Yii::$app->user->identity?->isAdmin
+                Yii::$app->user->identity?->isAdmin
                     ? ['label' => 'JSON', 'url' => ['/ads/json']]
                     : '',
                 Yii::$app->user->isGuest

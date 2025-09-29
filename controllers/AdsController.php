@@ -38,6 +38,23 @@ class AdsController extends Controller
         );
     }
 
+
+    public function actionDisableStatus($id)
+    {
+        $model = Ads::findOne($id);
+        $model->status_id = Status::getId('disable');
+        $model->save();
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+    public function actionAbleStatus($id)
+    {
+        $model = Ads::findOne($id);
+        $model->status_id = Status::getId('able');
+        $model->save();
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
     /**
      * Lists all ads models.
      *
@@ -45,6 +62,8 @@ class AdsController extends Controller
      */
     public function actionIndex()
     {
+
+
         $searchModel = new adsSeacrh();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -162,15 +181,15 @@ class AdsController extends Controller
     public function actionJson()
     {
         $query = ads::find()
-        ->with('image')->with('user')->all();
+            ->with('image')->with('user')->all();
         $result = [];
-        foreach($query as $value) {
+        foreach ($query as $value) {
             // VarDumper::dump($value->image[0]->title, 10, true); die;
             $result[] = [
                 'id' => $value->id,
                 'title' => $value->title,
                 'description' => Category::getTitle($value->category_id),
-                'image' => 'web/image/' . $value->image[0]->title . "." .$value->image[0]->extension,
+                'image' => 'web/image/' . $value->image[0]->title . "." . $value->image[0]->extension,
                 'emails' => $value->user[0]->email,
             ];
         }
@@ -183,7 +202,8 @@ class AdsController extends Controller
         ]);
     }
 
-    public function actionDownload($json) {
+    public function actionDownload($json)
+    {
         Yii::$app->response->sendFile('../views/ads/ads.json');
         return $this->render('json', [
             'json' => $json,

@@ -45,6 +45,9 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $searchModel = new profileSeacrh();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -62,6 +65,10 @@ class ProfileController extends Controller
      */
     public function actionView($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);

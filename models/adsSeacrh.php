@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\ads;
+use Yii;
 
 /**
  * adsSeacrh represents the model behind the search form of `app\models\ads`.
@@ -43,8 +44,10 @@ class adsSeacrh extends ads
      */
     public function search($params, $formName = null)
     {
-        $query = ads::find()
-        ->where(['status_id' => 1]);
+        $query = ads::find();
+        if (!Yii::$app->user->identity?->isAdmin) {
+            $query = $query->where(['status_id' => 1]);
+        }
 
         // add conditions that should always apply here
 

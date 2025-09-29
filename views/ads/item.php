@@ -22,7 +22,19 @@ use yii\helpers\VarDumper;
         <?php } ?>
 
         <?= HTML::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']) ?>
-        
+        <?php
+        if (Yii::$app->user->identity?->isAdmin) {
+            if ($model->status_id == 1) {
+                echo HTML::a('Сделать неактивным', ['disable-status', 'id' => $model->id], ['class' => 'btn btn-outline-danger', 'data-method' => "post"]);
+            } else {
+               echo  HTML::a('Сделать активным', ['able-status', 'id' => $model->id], ['class' => 'btn btn-outline-primary', 'data-method' => "post"]);
+            }
+        } else {
+            // VarDumper::dump('123', 10, true); die;
+        }
+
+
+        ?>
     </div>
     <div class='d-flex gap-3 m-3 justify-content-end'>
 
