@@ -7,6 +7,7 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\widgets\Pjax;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,7 +19,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-5">
-
+            <?php
+            Pjax::begin([
+                'id' => 'pjax-modal',
+                'enablePushState' => false,
+                'enableReplaceState' => false,
+                'timeout' => 5000,
+            ]);
+            ?>
             <?php $form = ActiveForm::begin([
                 'id' => 'login-form',
                 'fieldConfig' => [
@@ -46,6 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 You may login with <strong>admin@admin.com/Admin123</strong> or <strong>demo/demo</strong>.<br>
                 To modify the username/password, please check out the code <code>app\models\User::$users</code>.
             </div>
+            <?php
+            Pjax::end()
+            ?>
 
         </div>
     </div>

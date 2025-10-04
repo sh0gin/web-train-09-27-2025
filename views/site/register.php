@@ -6,7 +6,10 @@
 /** @var app\models\LoginForm $model */
 
 use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Alert;
 use yii\bootstrap5\Html;
+use yii\web\JqueryAsset;
+use yii\widgets\Pjax;
 
 $this->title = 'Регистрация';
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,8 +21,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
 
-            <?php $form = ActiveForm::begin([
+            <?php
+
+            Pjax::begin([
+                'id' => 'pjax-modal',
+                'enablePushState' => false,
+                'enableReplaceState' => false,
+                'timeout' => 5000,
+            ]);
+
+            if (Yii::$app->session->hasFlash('error')) {
+                echo Alert::widget();
+            }
+
+            $form = ActiveForm::begin([
                 'id' => 'login-form',
+                'options' => [
+                    'data-pjax' => true,
+                ],
                 'fieldConfig' => [
                     'template' => "{label}\n{input}\n{error}",
                     'labelOptions' => ['class' => 'col-lg-1 col-form-label mr-lg-3'],
@@ -39,7 +58,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
 
-            <?php ActiveForm::end(); ?>
+            <?php ActiveForm::end();
+            $this->registerJsFile('js/password_handler.js', ['depends' => JqueryAsset::class]);
+
+            Pjax::end()
+            ?>
 
 
         </div>

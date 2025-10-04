@@ -7,8 +7,11 @@ use app\assets\AppAsset;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
+use yii\bootstrap5\Modal;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\web\JqueryAsset;
+use yii\widgets\Pjax;
 
 AppAsset::register($this);
 
@@ -39,12 +42,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
         ]);
         echo Nav::widget([
-            'options' => ['class' => 'navbar-nav'],
+            'options' => ['class' => 'navbar-nav', ],
+
             'items' => [
                 ['label' => 'Главная', 'url' => ['/site/index']],
                 ['label' => 'Объявления', 'url' => ['/ads']],
                 !Yii::$app->user->isGuest
-                    ? ['label' => 'Мои объявления', 'url' => ['/profile']]
+                    ? ['label' => 'Мои объявления', 'url' => ['/ads/my']]
                     : '',
                 Yii::$app->user->identity?->isAdmin
                     ? ['label' => 'Категории', 'url' => ['/category']]
@@ -52,22 +56,37 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 Yii::$app->user->identity?->isAdmin
                     ? ['label' => 'JSON', 'url' => ['/ads/json']]
                     : '',
-                Yii::$app->user->isGuest
-                    ? ['label' => 'Регистрация', 'url' => ['/site/register']]
-                    : '',
-                Yii::$app->user->isGuest
-                    ? ['label' => 'Логин', 'url' => ['/site/login']]
-                    : '<li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->email . ')',
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
+                // Yii::$app->user->isGuest
+                //     ? ['label' => 'Регистрация', 'url' => ['/site/register'], 'linkOptions' => ['class' => 'nav-link register']]
+                //     : '',
+                // Yii::$app->user->isGuest
+                //     ? ['label' => 'Логин', 'url' => ['/site/login'], 'class' => 'modal login']
+                //     : '<li class="nav-item">'
+                //     . Html::beginForm(['/site/logout'])
+                //     . Html::submitButton(
+                //         'Logout (' . Yii::$app->user->identity->email . ')',
+                //         ['class' => 'nav-link btn btn-link logout']
+                //     )
+                //     . Html::endForm()
+                //     . '</li>'
             ]
         ]);
-        NavBar::end();
+        ?>
+        <?php if (Yii::$app->user->isGuest) { ?>
+        <div id='nav' class="ms-3 d-flex align-center gap-3">
+                <a href="/site/register" class="nav-link register text-white-50" >Регистрация</a>
+                <a href="/site/login" class="nav-link login text-white" >Логин</a>
+        </div>
+        <?php } else { 
+            echo '<a class="nav-item text-white-50">'
+            . Html::beginForm(['/site/logout'])
+            . Html::submitButton(
+            'Logout (' . Yii::$app->user->identity->email . ')',
+                ['class' => 'nav-link btn btn-link logout']
+            )
+            . Html::endForm();
+        } ?>
+       <?php NavBar::end();
         ?>
     </header>
 
@@ -90,7 +109,32 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         </div>
     </footer>
 
+
+    <?php Modal::begin([
+        'headerOptions' => [],
+        'id' => 'modal',
+        'options' => ['data-url' => ''],
+        'title' => "<div id='title'></div>",
+    ]);
+
+    Pjax::begin([
+        'id' => 'pjax-modal',
+        'enablePushState' => false,
+        'enableReplaceState' =>false,
+        'timeout' => 5000,
+    ]);
+
+
+    Pjax::end();
+
+    Modal::end();
+
+    ?>
+
+    <?php $this->registerJsFile('js/modal.js', ['depends' => JqueryAsset::class]) ?>
+
     <?php $this->endBody() ?>
+
 </body>
 
 </html>

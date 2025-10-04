@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\models\Ads;
-use app\models\Category;
+use app\models\category;
 use app\models\Image;
 use app\models\profile;
 use app\models\profileSeacrh;

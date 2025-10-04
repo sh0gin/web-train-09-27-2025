@@ -28,10 +28,10 @@ class RegisterForm extends Model
         return [
             // username and password are both required
             [['email', 'password'], 'required'],
-            ['email', 'email'],
-            ['password', 'match', 'pattern' => '/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9a-zA-Z!@#$%^&*]/',
-            'message' => "Пароль должен содержать как минимум одно заглавную букву, одну строчну и одну цифру. От 8 до 12 символом"],
-            ['password', 'string', 'min' => 8, 'max' => 12, 'message' => 'Пароль должен содержать как минимум одно заглавную букву, одну строчну и одну цифру. От 8 до 12 символом']
+            ['email', 'unique', 'targetClass' => User::class],
+            // ['password', 'match', 'pattern' => '/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9a-zA-Z!@#$%^&*]/',
+            // 'message' => "Пароль должен содержать как минимум одно заглавную букву, одну строчну и одну цифру. От 8 до 12 символом"],
+            // ['password', 'string', 'min' => 8, 'max' => 12, 'message' => 'Пароль должен содержать как минимум одно заглавную букву, одну строчну и одну цифру. От 8 до 12 символом']
             // rememberMe must be a boolean value
             // password is validated by validatePassword()
             // ['password', 'validatePassword'],

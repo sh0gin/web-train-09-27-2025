@@ -46,7 +46,7 @@ class adsSeacrh extends ads
     {
         $query = ads::find();
         if (!Yii::$app->user->identity?->isAdmin) {
-            $query = $query->where(['status_id' => 1]);
+            $query->where(['status_id' => 1]);
         }
 
         // add conditions that should always apply here
@@ -71,9 +71,10 @@ class adsSeacrh extends ads
         //     'date_created' => $this->date_created,
         // ]);
 
-        $query->orFilterWhere(['like', 'title', $this->title])
-            ->orFilterWhere(['like', 'description', $this->description]);
-
+        $query
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->orFilterWhere(['like', 'description', $this->title])
+            ;
         return $dataProvider;
     }
 }

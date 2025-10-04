@@ -4,9 +4,10 @@ namespace app\controllers;
 
 use app\models\ads;
 use app\models\adsSeacrh;
-use app\models\Category;
+use app\models\category;
 use app\models\Image;
 use app\models\myAdsSeacrh;
+use app\models\profileSeacrh;
 use app\models\Status;
 use Yii;
 use yii\web\Controller;
@@ -133,16 +134,16 @@ class AdsController extends Controller
     }
 
 
-    // public function actionMy()
-    // {
-    //     $searchModel = new myAdsSeacrh();
-    //     $dataProvider = $searchModel->search($this->request->queryParams);
+    public function actionMy()
+    {
+        $searchModel = new profileSeacrh();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
-    //     return $this->render('myAds/index', [
-    //         'searchModel' => $searchModel,
-    //         'dataProvider' => $dataProvider,
-    //     ]);
-    // }
+        return $this->render('my', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Updates an existing ads model.
      * If update is successful, the browser will be redirected to the 'view' page.

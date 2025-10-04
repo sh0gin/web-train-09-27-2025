@@ -11,7 +11,7 @@ use yii\helpers\VarDumper;
  * @property int $id
  * @property int $title
  */
-class Category extends \yii\db\ActiveRecord
+class category extends \yii\db\ActiveRecord
 {
 
     /**

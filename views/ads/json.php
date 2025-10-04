@@ -21,9 +21,14 @@ $this->params['breadcrumbs'][] = 'JSON';
     <?= HTML::a('Скачать', ['download', 'json' => $json], ['class' => 'btn btn-outline-success']) ?>
 
     <div>
-        <small>
-            <?= $json ?>
-        </small>
+       
+
+            <code>
+                <?= $json ?>
+                
+            </code>
+       
+
     </div>
 
 
